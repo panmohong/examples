@@ -1,0 +1,38 @@
+name: homepage
+on:
+  push:
+    paths:
+      - 'typescript/react/cv/**'
+    branches:
+      - '*'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: |
+          yarn --frozen-lockfile --ignore-optional
+          GITHUB_SHA=${GITHUB_SHA::8} yarn build
+          ls -al dist
+        working-directory: typescript/react/cv
+      - run: |
+          git clone --single-branch --branch "${GITHUB_BRANCH}" "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/${GITHUB_USER}/${GITHUB_REPO}.git" /tmp/repo
+          cp dist/* /tmp/repo/
+          cd /tmp/repo/
+          git add .
+          git config --local user.name github-actions
+          git config --local user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "chore: ${GITHUB_COMMIT}"
+          git push "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/$GITHUB_REPO.git" "${GITHUB_BRANCH}"
+        working-directory: typescript/react/cv
+        env:
+          GITHUB_USER: panmohong
+          GITHUB_REPO: panmohong.github.io
+          GITHUB_BRANCH: gh-pages
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_COMMIT: ${{ github.repository }}@${{ github.sha }}
+
