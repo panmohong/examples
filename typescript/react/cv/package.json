@@ -18,7 +18,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "postinstall": "npx sort-package-json",
-    "prepare": "cd ../../.. && husky install typescript/react/.husky",
+    "lint": "prettier -w src && eslint --ext .js,.jsx,.ts,.tsx src --fix",
+    "prepare": "cd ../../.. && husky install typescript/react/cv/.husky",
     "start": "webpack serve --mode=development"
   },
   "lint-staged": {
