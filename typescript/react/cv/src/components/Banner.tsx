@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Icon from './Icons';
 import * as S from './Banner.styles';
 
 const initialState = {
@@ -13,30 +14,40 @@ const Banner = () => {
   const [state] = useState(() => initialState);
 
   return (
-    <S.Banner>
-      <S.Layout>{state.name}</S.Layout>
+    <S.Banner data-component={'Banner'}>
+      <S.Layout>
+        <div>{state.name}</div>
+      </S.Layout>
       <S.Layout>
         <S.Row>
           <a href={`mailto:${state.email}`} target={'_blank'}>
             {state.email}
           </a>
-          <S.Icon />
+          <S.Icon>
+            <Icon.Mail />
+          </S.Icon>
         </S.Row>
         <S.Row>
           <a href={state.linkedin} target={'_blank'}>
             {state.linkedin.split('/').pop()}
           </a>
-          <S.Icon />
+          <S.Icon>
+            <Icon.Phone />
+          </S.Icon>
         </S.Row>
         <S.Row>
           <a href={state.github} target={'_blank'}>
             {state.github.split('/').pop()}
           </a>
-          <S.Icon />
+          <S.Icon>
+            <Icon.Github />
+          </S.Icon>
         </S.Row>
         <S.Row>
           <div>{state.location}</div>
-          <S.Icon />
+          <S.Icon>
+            <Icon.Location />
+          </S.Icon>
         </S.Row>
       </S.Layout>
     </S.Banner>
