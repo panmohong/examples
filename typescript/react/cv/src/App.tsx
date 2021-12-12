@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Banner from './components/Banner';
+import GlobalStyle from './GlobalStyle';
 
 const Background = styled.div`
   position: fixed;
@@ -14,9 +15,12 @@ const Background = styled.div`
 `;
 
 const App = () => (
-  <Background>
-    <Banner />
-  </Background>
+  <>
+    <GlobalStyle />
+    <Background>
+      <Banner />
+    </Background>
+  </>
 );
 
 export default App;

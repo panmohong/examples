@@ -3,10 +3,15 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const token =
+  Math.random().toString(36).slice(2).padEnd(11, '0') +
+  Date.now().toString(36).padStart(10, 'x');
+console.info(token);
+
 /**
  * @returns {webpack.Configuration}
  */
-module.exports = () => ({
+module.exports = (_, { mode }) => ({
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     port: 2022,
@@ -54,7 +59,12 @@ module.exports = () => ({
       template: path.resolve(__dirname, 'public/index.html'),
     }),
     new webpack.DefinePlugin({
-      'process.env.GITHUB_SHA': JSON.stringify(process.env.GITHUB_SHA),
+      'process.env.GITHUB_SHA':
+        mode === 'development'
+          ? JSON.stringify('dev')
+          : JSON.stringify(process.env.GITHUB_SHA),
+      'process.env.BUILD_HASH':
+        mode === 'development' ? JSON.stringify('') : JSON.stringify(token),
     }),
   ],
 });
